@@ -1,5 +1,5 @@
 #include "factor.h"
-
+#include <math.h> 
 /**
  * factored - factorize given buf
  * @buf: the num read
@@ -10,11 +10,11 @@ int factored(char *buf)
 	unsigned long long int x;
 	unsigned long long int number;
 
-	number = atoi(buf);
+	number = strtoull(buf, NULL, 10);
 	x = 2;
 	while (x < number)
 	{
-		if (number % x == 0)
+		if (number == (number / x) * x)
 		{
 			printf("%llu=%llu*%llu\n", number, number / x, x);
 			break;
