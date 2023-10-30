@@ -1,5 +1,4 @@
 #include "factor.h"
-#include <math.h> 
 /**
  * factored - factorize given buf
  * @buf: the num read
@@ -7,21 +6,27 @@
  */
 int factored(char *buf)
 {
-	unsigned long long int x;
-	unsigned long long int number;
+mpz_t x, number, divided;
 
-	number = strtoull(buf, NULL, 10);
-	x = 2;
-	while (x < number)
-	{
-		if (number == (number / x) * x)
-		{
-			printf("%llu=%llu*%llu\n", number, number / x, x);
-			break;
-		}
-		x++;
-	}
-	return (0);
+mpz_init(number);
+mpz_init(x);
+mpz_init(divided);
+mpz_set_str(number, buf, 10);
+mpz_set_ui(x, 2);
+while (mpz_cmp(x, number) < 0)
+{
+if (mpz_divisible_p(number, x))
+{
+mpz_div(divided, number, x);
+gmp_printf("%Zd=%Zd*%Zd\n", number, divided, x);
+break;
+}
+mpz_add_ui(x, x, 1);
+}
+mpz_clear(x);
+mpz_clear(number);
+mpz_clear(divided);
+return (0);
 }
 /**
  * main - main
